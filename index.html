@@ -25,9 +25,13 @@
         .marker {
             display: block;
             border: none;
-            border-radius: 50%;
+/*            border-radius: 50%;*/
             cursor: pointer;
             padding: 0;
+            height: 10%;
+            width: 10%;
+            background-repeat: no-repeat;
+            background-size: contain;
         }
         .names-list {
 /*            background: rgba(152, 244, 252, 0.65);*/
@@ -148,7 +152,7 @@ map.on('load', function() {
 //    console.log(features)
 //    console.log(features[0])
     console.log(features[0].properties)
-    console.log(features[0].properties["scpt_name"])
+    console.log(features[0].properties["img_url"])
     
     var names = getSculptNames(features)
 //    console.log(names)
@@ -157,26 +161,42 @@ map.on('load', function() {
     
 });
 
-function createMarkers(geojson) {
+function createMarkers(features) {
     
-    // add markers to map
-    JSON.stringify(geojson, null, 2).features.forEach(function(marker) {
-        // create a DOM element for the marker
+    
+    for (i = 0; i < features.length; i++) {
         var el = document.createElement('div');
         el.className = 'marker';
-        el.style.backgroundImage = 'url(' + properties["img_url"] + "')";
-        el.style.width = '5px'
-        el.style.height = '5px'
-
-        el.addEventListener('click', function() {
-            window.alert(marker.properties.message);
-        });
-
-        // add marker to map
+//        console.log("url('" + features[i].properties["img_url"] + "')")
+        el.style.backgroundImage = "url('" + features[i].properties["img_url"] + "')";
+        console.log(el.style.backgroundImage)
+//        el.style.width = '50px'
+//        el.style.height = '50px'
+        
         new mapboxgl.Marker(el)
-            .setLngLat(marker.geometry.coordinates)
+            .setLngLat(features[i].geometry.coordinates)
             .addTo(map);
-    });
+        console.log(features[i].geometry.coordinates)
+    }
+    
+    // add markers to map
+//    JSON.stringify(geojson, null, 2).features.forEach(function(marker) {
+//        // create a DOM element for the marker
+//        var el = document.createElement('div');
+//        el.className = 'marker';
+//        el.style.backgroundImage = 'url(' + properties["img_url"] + "')";
+//        el.style.width = '5px'
+//        el.style.height = '5px'
+//
+//        el.addEventListener('click', function() {
+//            window.alert(marker.properties.message);
+//        });
+//
+//        // add marker to map
+//        new mapboxgl.Marker(el)
+//            .setLngLat(marker.geometry.coordinates)
+//            .addTo(map);
+//    });
 };
 
     
