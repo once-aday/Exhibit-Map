@@ -6,6 +6,10 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.22.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.22.0/mapbox-gl.css' rel='stylesheet' />
+    <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Coiny|Roboto|Oswald" rel="stylesheet">
     <style>
         body { margin:0; padding:0; }
@@ -106,23 +110,31 @@
     </aside>
 -->
     
-<div id='venue-buttons' class='venue-buttons'>
-    <ul>
-  <li><a href="#home"><img class='venue-logo' src='https://pbs.twimg.com/profile_images/582657230815817729/gHh4Ups2_normal.png' alt='National Zoo'></a></li>
-  <li><a href="#news"><img class='venue-logo' src='https://yt3.ggpht.com/-kCy7BOXyzLw/AAAAAAAAAAI/AAAAAAAAAAA/H3MqAizmPto/s900-c-k-no-mo-rj-c0xffffff/photo.jpg'></a>/li>
-  <li><a href="#contact"><img class='venue-logo' src='https://cityparkalliance.files.wordpress.com/2013/02/denver-zoo-logo.jpg'> </a></li>
-  <li><a href="#about"><img class='venue-logo' src='https://media.glassdoor.com/sql/145488/science-museum-of-virginia-squarelogo.png'></a></li>
-<li><a href="#about"><img class='venue-logo' src='http://www.sfzoo.org/images/v2/wordmark.png'></a></li>
-<li><a href="#about"><img class='venue-logo' src='http://www.washington.edu/alumni/partnerships/uwt/200804/images/pdza_logo.jpg'></a></li>
-<li><a href="#about"><img class='venue-logo' src='https://res-2.cloudinary.com/simpleview/image/fetch/c_fill,f_auto,h_218,q_75,w_328/http://DesMoines.simpleviewcrm.com/images/listings/original_Coupon_ReimanGardens0.png'></a></li>
-<li><a href="#about"><img class='venue-logo' src='https://modernbocamom.com/wp-content/uploads/2015/08/MOUNTS-Botanical-Garden-Logo.jpg'></a></li>
-<li><a href="#about"><img class='venue-logo' src='https://www.sheddaquarium.org/globalassets/logo_shedd.png'></a></li>
+<div id='venues' class='venue-buttons'>
+    <ul id="venue-button-list">
+  <li><a href="#home"><img id='nat_zoo' img class='venue-logo' src='https://pbs.twimg.com/profile_images/582657230815817729/gHh4Ups2_normal.png' alt='National Zoo'></a></li>
+        
+  <li><a href="#news"><img id='georgia_aquarium' img class='venue-logo' src='https://yt3.ggpht.com/-kCy7BOXyzLw/AAAAAAAAAAI/AAAAAAAAAAA/H3MqAizmPto/s900-c-k-no-mo-rj-c0xffffff/photo.jpg'></a>/li>
+      
+  <li><a href="#contact"><img id='denver_zoo' img class='venue-logo' src='https://cityparkalliance.files.wordpress.com/2013/02/denver-zoo-logo.jpg'> </a></li>
+        
+  <li><a href="#about"><img id='sci_virginia' img class='venue-logo' src='https://media.glassdoor.com/sql/145488/science-museum-of-virginia-squarelogo.png'></a></li>
+        
+<li><a href="#about"><img id='sf_zoo' img class='venue-logo' src='http://www.sfzoo.org/images/v2/wordmark.png'></a></li>
+        
+<li><a href="#about"><img id='defiance_zoo' img class='venue-logo' src='http://www.washington.edu/alumni/partnerships/uwt/200804/images/pdza_logo.jpg'></a></li>
+        
+<li><a href="#about"><img id='reiman_gardens' img class='venue-logo' src='https://res-2.cloudinary.com/simpleview/image/fetch/c_fill,f_auto,h_218,q_75,w_328/http://DesMoines.simpleviewcrm.com/images/listings/original_Coupon_ReimanGardens0.png'></a></li>
+        
+<li><a href="#about"><img id='palm_garden' img class='venue-logo' src='https://modernbocamom.com/wp-content/uploads/2015/08/MOUNTS-Botanical-Garden-Logo.jpg'></a></li>
+        
+<li><a href="#about"><img id='shedd' img class='venue-logo' src='https://www.sheddaquarium.org/globalassets/logo_shedd.png'></a></li>
+        
 </ul>
     </div>    
 <div id='map'></div>
 <script>
     
-console.log("Hello")
 mapboxgl.accessToken = 'pk.eyJ1Ijoib25jZWFkYXkiLCJhIjoiY2lqdThkb25mMGQ5bXU3bThhMjlzZWV2cSJ9.9VILu65Um-aP_J04RRO32w';
 var map = new mapboxgl.Map({
     container: 'map', // container id
@@ -151,16 +163,27 @@ map.on('load', function() {
     var features = map.queryRenderedFeatures()
 //    console.log(features)
 //    console.log(features[0])
-    console.log(features[0].properties)
-    console.log(features[0].properties["img_url"])
+//    console.log(features[0].properties)
+//    console.log(features[0].properties["img_url"])
     
     var names = getSculptNames(features)
 //    console.log(names)
     createMarkers(features)
+//    venueButtonInteraction()
     
     
 });
 
+    
+$(document).ready(function() {
+    $('.venue-buttons').click(function(event) {
+        console.log(event.target.id)
+        flyToVenue(event.target.id)
+    });
+});
+    
+    
+    
 function createMarkers(features) {
     
     
@@ -169,14 +192,14 @@ function createMarkers(features) {
         el.className = 'marker';
 //        console.log("url('" + features[i].properties["img_url"] + "')")
         el.style.backgroundImage = "url('" + features[i].properties["img_url"] + "')";
-        console.log(el.style.backgroundImage)
+//        console.log(el.style.backgroundImage)
 //        el.style.width = '50px'
 //        el.style.height = '50px'
         
         new mapboxgl.Marker(el)
             .setLngLat(features[i].geometry.coordinates)
             .addTo(map);
-        console.log(features[i].geometry.coordinates)
+//        console.log(features[i].geometry.coordinates)
     }
     
     // add markers to map
@@ -199,6 +222,55 @@ function createMarkers(features) {
 //    });
 };
 
+function flyToVenue(venueName) {
+    // Variable order: Lat/lon, zoomLevel, bearing, pitch
+    var venue_locs = {'defiance_zoo':[[-122.5215, 47.3050], 9, 30, 50],
+                      'denver_zoo':[[-104.9501, 39.7502], 9, 300, 50],
+                      'georgia_aquarium':[[-84.40,33.77], 12, 270, 50],
+                      'nat_zoo':[[-77.0498,38.9296], 9, 300, 50],
+                      'palm_garden':[[-80.11311,28.685474], 9, 270, 50],
+                      'reiman_gardens':[[-93.6386,42.0106], 9, 300, 50],
+                      'sf_zoo':[[-122.5029, 37.7330], 9, 90, 50],
+                      'sci_virginia':[[-78.6569, 37.4316], 9, 300, 50],
+                      'shedd':[[-87.6140, 41.8676], 10, 270, 100]}
+    
+    console.log("He clicked fly To " +String(venueName))
+    console.log(venue_locs[String(venueName)])
+    
+    
+    var end = venue_locs[venueName][0];
+    var isAtStart = true;
+    // depending on whether we're currently at point a or b, aim for
+    // point a or b
+    var target = isAtStart ? end : start;
+
+    // and now we're at the opposite point
+    isAtStart = !isAtStart;
+
+    map.flyTo({
+        
+        // These options control the ending camera position: centered at
+        // the target, at zoom level 9, and north up.
+        center: target,
+        zoom: venue_locs[venueName][1],
+        bearing: venue_locs[venueName][2],
+        pitch: venue_locs[venueName][3],
+
+        // These options control the flight curve, making it move
+        // slowly and zoom out almost completely before starting
+        // to pan.
+        speed: 0.8, // make the flying slow
+        curve: 1, // change the speed at which it zooms out
+
+        // This can be any easing function: it takes a number between
+        // 0 and 1 and returns another number between 0 and 1.
+        easing: function (t) {
+            return t;
+        }
+    })
+    var start = venue_locs[venueName];
+    
+}
     
 function getSculptNames(features) {
     
@@ -222,6 +294,26 @@ function getSculptNames(features) {
 
     return names
 };
+
+function venueButtonInteraction() {
+    
+    
+
+    var ul = document.getElementById("venue-button-list");
+        var items = ul.getElementsByTagName("li");
+        for (var i = 0; i < items.length; ++i) {
+            console.log(items[i].id)
+            
+            
+            
+            document.getElementById(items[i].id).addEventListener('click', function() {
+                var venueGeoLoc = venue_locs[items[i].id]
+                flyToVenue(venueGeoLoc)
+            });
+        
+        }
+    
+}
     
 </script>  
     
