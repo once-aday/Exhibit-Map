@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css?family=Coiny|Roboto|Oswald" rel="stylesheet">
     <style>
         body { margin:0; padding:0; }
-        #map { position:absolute; top:0; bottom:0; width:100%; height:100%;}
+        #map { position:absolute; top:0; bottom:0; width:100%; height:100%; z-index: 0}
     </style>
 </head>
     
@@ -39,8 +39,13 @@
         }
         .names-list {
 /*            background: rgba(152, 244, 252, 0.65);*/
+/*
             margin-left: 75%;
             margin-top: 4%;
+*/
+            top: 20%;
+            right: 5%;
+
             z-index: 3;
             position: absolute;
             max-height: 405px;
@@ -87,14 +92,28 @@
         }
         .venue-buttons li {
             padding-left: 0px;
-            margin: 1px;
+            margin: 10px;
             height: 35px;
             list-style-type: none;
-        }    
+        }
+        .venue-title {
+            font-family: 'Oswald';
+            color: #f2d67a;
+            font-size: xx-large;
+            z-index: 500;
+            text-shadow: 2px 1px #044371;
+            text-align: right;
+            position: absolute;
+            margin: -100px 0 0 -200px;
+            top: 25%;
+            left: 55%;
+            display: none;
+        }
         img.venue-logo {
             width: 25px;
             height 25px;
             border-radius: 30%;
+/*            border: 2px solid red;*/
             
         }
         .wa-logo {
@@ -103,32 +122,37 @@
         }
     </style>
 
-    <div id='title' class='title'><a href='#logo'><img class='wa-logo' src='http://washedashore.org/wp2/wp-content/uploads/logo-main.png'></a></div>    
+    <div id='title' class='title'><a href='#logo'><img class='wa-logo' src='http://washedashore.org/wp2/wp-content/uploads/logo-main.png'></a></div>
+    
+    <div class="venue-title" id="venue-title-id">
+    </div>
 <!--
 <aside id='sculpt-names' class='names-list'>
      <ul></ul>
     </aside>
 -->
     
-<div id='venues' class='venue-buttons'>
-    <ul id="venue-button-list">
-  <li><a href="#home"><img id='nat_zoo' img class='venue-logo' src='https://pbs.twimg.com/profile_images/582657230815817729/gHh4Ups2_normal.png' alt='National Zoo'></a></li>
+<div class='venue-buttons'>
+    <ul>
+        <div class='venue-button-li'>
+  <li><a href="#venue"><img id='nat_zoo' class='venue-logo' src='https://pbs.twimg.com/profile_images/582657230815817729/gHh4Ups2_normal.png' alt='National Zoo'></a></li>
         
-  <li><a href="#news"><img id='georgia_aquarium' img class='venue-logo' src='https://yt3.ggpht.com/-kCy7BOXyzLw/AAAAAAAAAAI/AAAAAAAAAAA/H3MqAizmPto/s900-c-k-no-mo-rj-c0xffffff/photo.jpg'></a>/li>
+  <li><a href="#venue"><img id='georgia_aquarium' class='venue-logo' name="Georgia Aquarium" src='https://yt3.ggpht.com/-kCy7BOXyzLw/AAAAAAAAAAI/AAAAAAAAAAA/H3MqAizmPto/s900-c-k-no-mo-rj-c0xffffff/photo.jpg'></a></li>
       
-  <li><a href="#contact"><img id='denver_zoo' img class='venue-logo' src='https://cityparkalliance.files.wordpress.com/2013/02/denver-zoo-logo.jpg'> </a></li>
+  <li><a href="#venue"><img id='denver_zoo' class='venue-logo' src='https://cityparkalliance.files.wordpress.com/2013/02/denver-zoo-logo.jpg'> </a></li>
         
-  <li><a href="#about"><img id='sci_virginia' img class='venue-logo' src='https://media.glassdoor.com/sql/145488/science-museum-of-virginia-squarelogo.png'></a></li>
+  <li><a href="#venue"><img id='sci_virginia' class='venue-logo' src='https://media.glassdoor.com/sql/145488/science-museum-of-virginia-squarelogo.png'></a></li>
         
-<li><a href="#about"><img id='sf_zoo' img class='venue-logo' src='http://www.sfzoo.org/images/v2/wordmark.png'></a></li>
+<li><a href="#venue"><img id='sf_zoo' class='venue-logo' src='http://www.sfzoo.org/images/v2/wordmark.png'></a></li>
         
-<li><a href="#about"><img id='defiance_zoo' img class='venue-logo' src='http://www.washington.edu/alumni/partnerships/uwt/200804/images/pdza_logo.jpg'></a></li>
+<li><a href="#venue"><img id='defiance_zoo' class='venue-logo' src='http://www.washington.edu/alumni/partnerships/uwt/200804/images/pdza_logo.jpg'></a></li>
         
-<li><a href="#about"><img id='reiman_gardens' img class='venue-logo' src='https://res-2.cloudinary.com/simpleview/image/fetch/c_fill,f_auto,h_218,q_75,w_328/http://DesMoines.simpleviewcrm.com/images/listings/original_Coupon_ReimanGardens0.png'></a></li>
+<li><a href="#venue"><img id='reiman_gardens' class='venue-logo' src='https://res-2.cloudinary.com/simpleview/image/fetch/c_fill,f_auto,h_218,q_75,w_328/http://DesMoines.simpleviewcrm.com/images/listings/original_Coupon_ReimanGardens0.png'></a></li>
         
-<li><a href="#about"><img id='palm_garden' img class='venue-logo' src='https://modernbocamom.com/wp-content/uploads/2015/08/MOUNTS-Botanical-Garden-Logo.jpg'></a></li>
+<li><a href="#venue"><img id='palm_garden' class='venue-logo' src='https://modernbocamom.com/wp-content/uploads/2015/08/MOUNTS-Botanical-Garden-Logo.jpg'></a></li>
         
-<li><a href="#about"><img id='shedd' img class='venue-logo' src='https://www.sheddaquarium.org/globalassets/logo_shedd.png'></a></li>
+<li><a href="#venue"><img id='shedd' class='venue-logo' src='https://www.sheddaquarium.org/globalassets/logo_shedd.png'></a></li>
+            </div>
         
 </ul>
     </div>    
@@ -140,7 +164,7 @@ var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/onceaday/civ64l1he001d2ipb684hzrd8', //hosted style id
     center: [-92.00, 36.82], // starting position
-    zoom: 2.6 // starting zoom
+    zoom: 2.6 // starting zoom 2.6
 });
     
     
@@ -168,21 +192,72 @@ map.on('load', function() {
     
     var names = getSculptNames(features)
 //    console.log(names)
-    createMarkers(features)
+//    createMarkers(features) // Generate Sculpture Images on the markers
 //    venueButtonInteraction()
     
     
 });
 
-    
 $(document).ready(function() {
-    $('.venue-buttons').click(function(event) {
-        console.log(event.target.id)
-        flyToVenue(event.target.id)
+    $('.venue-logo').mouseover(function(event) {
+        $("#" + String(event.target.id)).animate({
+            "border-width": "5px"
+//            opacity: 0.25,
+//            height: "40",
+//            width: "40"
+        }, 250)
+        console.log("Poof !");
+//        console.log(event.target.id);
+//        
+//        var curVenueBtn = document.getElementById(String(event.target.id));
+//        curVenueBtn.style.borderColor = "red";
+        
     });
 });
     
+$(document).ready(function() {
+    $('.venue-buttons').click(function(event) {
+//        console.log(event.target.id)
+        flyToVenue(event.target.id)
+        var venueLogoDiv = document.getElementById('venue-title-id')
+
+        loadVenueLogo(event.target.id)
+    });
+});
     
+function loadVenueLogo(id) {
+    
+    
+    var venueNames = {'defiance_zoo':"Defiance Zoo",
+                      'denver_zoo':"Denver Zoo",
+                      'georgia_aquarium':"Georgia Aquarium",
+                      'nat_zoo':"National Zoo",
+                      'palm_garden':"Palm Garden",
+                      'reiman_gardens':"Reiman Gardens",
+                      'sf_zoo':"San Francisco Zoo",
+                      'sci_virginia':"Science Museum of Virginia",
+                      'shedd':"Shedd Aquarium"}
+    
+    
+    
+    var venueLogoDiv = document.getElementById('venue-title-id');
+    var commonName = String(venueNames[String(id)])
+    venueLogoDiv.innerHTML = String(venueNames[String(id)]);
+    
+    
+    
+    $(venueLogoDiv).delay(1300).fadeIn(4000).delay(3000).fadeOut(1600);
+    
+    
+//    $(venueLogoDiv).toggle(1600, function() {
+//        //animation complete
+//        console.log("Sliding up..")
+//    });
+//    $(venueLogoDiv).fadeOut(1600, function() {
+//        //animation complete
+//        console.log("Sliding up..")
+//    });
+}    
     
 function createMarkers(features) {
     
