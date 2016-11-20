@@ -222,6 +222,11 @@ $(document).ready(function() {
         var venueLogoDiv = document.getElementById('venue-title-id')
 
         loadVenueLogo(event.target.id)
+        
+//        var features = map.queryRenderedFeatures()
+//        var names = getSculptNames(features)
+//        createMarkers(features)
+        
     });
 });
     
@@ -246,7 +251,12 @@ function loadVenueLogo(id) {
     
     
     
-    $(venueLogoDiv).delay(1300).fadeIn(4000).delay(3000).fadeOut(1600);
+    $(venueLogoDiv).delay(1300).fadeIn(4000).delay(3000).fadeOut(1600, function() {
+        // Code after text finishes
+            var features = map.queryRenderedFeatures()
+            var names = getSculptNames(features)
+            createMarkers(features)
+    });
     
     
 //    $(venueLogoDiv).toggle(1600, function() {
@@ -297,11 +307,15 @@ function createMarkers(features) {
 //    });
 };
 
+    
+
+    
+    
 function flyToVenue(venueName) {
     // Variable order: Lat/lon, zoomLevel, bearing, pitch
     var venue_locs = {'defiance_zoo':[[-122.5215, 47.3050], 9, 30, 50],
                       'denver_zoo':[[-104.9501, 39.7502], 9, 300, 50],
-                      'georgia_aquarium':[[-84.40,33.77], 12, 270, 50],
+                      'georgia_aquarium':[[-124.4840,43.1190], 9, 200, 50], // Replacing with bandon, Was:[[-84.40,33.77], 12, 270, 50]
                       'nat_zoo':[[-77.0498,38.9296], 9, 300, 50],
                       'palm_garden':[[-80.11311,28.685474], 9, 270, 50],
                       'reiman_gardens':[[-93.6386,42.0106], 9, 300, 50],
@@ -349,6 +363,7 @@ function flyToVenue(venueName) {
     
 function getSculptNames(features) {
     
+    $(".names-list li").remove();
     var names = []
     
     for (i = 0; i < features.length; i++) {
