@@ -197,6 +197,7 @@ map.on('load', function() {
     
     
 });
+    
 
 $(document).ready(function() {
     $('.venue-logo').mouseover(function(event) {
@@ -251,12 +252,11 @@ function loadVenueLogo(id) {
     
     
     
-    $(venueLogoDiv).delay(1300).fadeIn(4000).delay(3000).fadeOut(1600, function() {
-        // Code after text finishes
-            var features = map.queryRenderedFeatures()
-            var names = getSculptNames(features)
-            createMarkers(features)
-    });
+    $(venueLogoDiv).delay(1300).fadeIn(4000, function() {
+        var features = map.queryRenderedFeatures()
+        var names = getSculptNames(features)
+        createMarkers(features)
+    }).delay(3000).fadeOut(1600);
     
     
 //    $(venueLogoDiv).toggle(1600, function() {
@@ -271,9 +271,27 @@ function loadVenueLogo(id) {
     
 function createMarkers(features) {
     
+    var markerHeight = 50, markerRadius = 10, linearOffset = 25;
+    var popupOffsets = {
+     'top': [0, 0],
+     'top-left': [0,0],
+     'top-right': [0,0],
+     'bottom': [0, -markerHeight],
+     'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+     'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+     'left': [markerRadius, (markerHeight - markerRadius) * -1],
+     'right': [-markerRadius, (markerHeight - markerRadius) * -1]
+     };
+
+
+
+    $("div").removeClass("marker mapboxgl-marker");
     
+    
+
     for (i = 0; i < features.length; i++) {
         var el = document.createElement('div');
+        el.id = 'marker'
         el.className = 'marker';
 //        console.log("url('" + features[i].properties["img_url"] + "')")
         el.style.backgroundImage = "url('" + features[i].properties["img_url"] + "')";
@@ -281,30 +299,33 @@ function createMarkers(features) {
 //        el.style.width = '50px'
 //        el.style.height = '50px'
         
-        new mapboxgl.Marker(el)
+        el.addEventListener('click', function() {
+            window.alert(marker.properties.message);
+        });
+        
+        var popup = new mapboxgl.Popup({offset:[0, -30]})
+        .setLngLat(features[i].geometry.coordinates)
+        .setText(features[i].properties["scpt_name"])
+        .addTo(map);
+
+        console.log(popup)
+//        var popup = new mapboxgl.Popup({offset:popupOffsets})
+//          .setHTML("<h1>Hello World!</h1>");
+//          .addTo(map);
+        
+        console.log(el);
+        var sculpt_marker = new mapboxgl.Marker(el)
             .setLngLat(features[i].geometry.coordinates)
+//            .setPopup(popup)
             .addTo(map);
-//        console.log(features[i].geometry.coordinates)
-    }
-    
-    // add markers to map
-//    JSON.stringify(geojson, null, 2).features.forEach(function(marker) {
-//        // create a DOM element for the marker
-//        var el = document.createElement('div');
-//        el.className = 'marker';
-//        el.style.backgroundImage = 'url(' + properties["img_url"] + "')";
-//        el.style.width = '5px'
-//        el.style.height = '5px'
-//
 //        el.addEventListener('click', function() {
-//            window.alert(marker.properties.message);
+//            mb_marker.togglePopup();
 //        });
-//
-//        // add marker to map
-//        new mapboxgl.Marker(el)
-//            .setLngLat(marker.geometry.coordinates)
-//            .addTo(map);
-//    });
+        
+
+//        console.log(features[i].geometry.coordinates)
+    };
+    
 };
 
     
@@ -315,7 +336,7 @@ function flyToVenue(venueName) {
     // Variable order: Lat/lon, zoomLevel, bearing, pitch
     var venue_locs = {'defiance_zoo':[[-122.5215, 47.3050], 9, 30, 50],
                       'denver_zoo':[[-104.9501, 39.7502], 9, 300, 50],
-                      'georgia_aquarium':[[-124.4840,43.1190], 9, 200, 50], // Replacing with bandon, Was:[[-84.40,33.77], 12, 270, 50]
+                      'georgia_aquarium':[[-124.4840,43.1190], 7, 90, 50], // Replacing with bandon, Was:[[-84.40,33.77], 12, 270, 50]
                       'nat_zoo':[[-77.0498,38.9296], 9, 300, 50],
                       'palm_garden':[[-80.11311,28.685474], 9, 270, 50],
                       'reiman_gardens':[[-93.6386,42.0106], 9, 300, 50],
