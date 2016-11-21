@@ -67,6 +67,35 @@
             color: #48aae8;
             font-size: small;
         }
+        .return-btn {
+            position:relative;
+            z-index: 50;
+            margin-right: 200px;
+            margin-bottom: 200px;
+            padding-left: 0px;
+            height: 35px;
+            list-style-type: none;
+        }
+        .return-btn li {
+            position: relative;
+            float: left;
+            padding-left: 50px;
+/*
+            margin-right: 500px;
+            margin-bottom: 500px;
+*/
+            height: 35px;
+            list-style-type: none;
+            
+        }
+        #cur_venue {
+            font-family: 'Oswald';
+            font-size: x-large;
+            color: #edca07;
+            padding-top: 10px;
+            padding-left: 50px;
+            
+        }
         
         .title {
             border-style: none;
@@ -93,7 +122,7 @@
         .venue-buttons li {
             padding-left: 0px;
             margin: 10px;
-            height: 35px;
+            height: 50px;
             list-style-type: none;
         }
         .venue-title {
@@ -110,8 +139,8 @@
             display: none;
         }
         img.venue-logo {
-            width: 25px;
-            height 25px;
+            width: 45px;
+            height 35px;
             border-radius: 30%;
 /*            border: 2px solid red;*/
             
@@ -119,6 +148,11 @@
         .wa-logo {
             height: 75%;
             width: 75%;
+        }
+        #world {
+            height: 50px;
+            width: 50px;
+            
         }
     </style>
 
@@ -131,6 +165,7 @@
      <ul></ul>
     </aside>
 -->
+
     
 <div class='venue-buttons'>
     <ul>
@@ -155,7 +190,13 @@
             </div>
         
 </ul>
-    </div>    
+    </div>
+    
+<div class='return-btn' id='return-list'>
+    <li><a href="#return"><img id='world' class='world-icon' src='https://cdn0.iconfinder.com/data/icons/duotone2/512/duotone_0-512.png' alt='return'></a></li>
+    <li id='cur_venue'></li>
+    </div>
+    
 <div id='map'></div>
 <script>
     
@@ -208,11 +249,28 @@ $(document).ready(function() {
 //            width: "40"
         }, 250)
         console.log("Poof !");
-//        console.log(event.target.id);
+        console.log(event.target.id);
 //        
 //        var curVenueBtn = document.getElementById(String(event.target.id));
 //        curVenueBtn.style.borderColor = "red";
         
+        var venueNames = {'defiance_zoo':"Defiance Zoo",
+                      'denver_zoo':"Denver Zoo",
+                      'georgia_aquarium':"Georgia Aquarium",
+                      'nat_zoo':"National Zoo",
+                      'palm_garden':"Palm Garden",
+                      'reiman_gardens':"Reiman Gardens",
+                      'sf_zoo':"San Francisco Zoo",
+                      'sci_virginia':"Science Museum of Virginia",
+                      'shedd':"Shedd Aquarium"}
+        
+        var curVenueDiv = document.getElementById('cur_venue')
+        curVenueDiv.innerHTML = String(venueNames[String(event.target.id)]);
+        
+    })
+    .mouseout(function(event) {
+        var curVenueDiv = document.getElementById('cur_venue')
+        curVenueDiv.innerHTML = "";
     });
 });
     
@@ -228,6 +286,15 @@ $(document).ready(function() {
 //        var names = getSculptNames(features)
 //        createMarkers(features)
         
+    });
+});
+    
+$(document).ready(function() {
+    $('.return-btn').click(function(event) {
+        console.log(event.target.id)
+        flyToVenue(event.target.id)
+        var venueLogoDiv = document.getElementById('venue-title-id')
+              
     });
 });
     
@@ -342,7 +409,8 @@ function flyToVenue(venueName) {
                       'reiman_gardens':[[-93.6386,42.0106], 9, 300, 50],
                       'sf_zoo':[[-122.5029, 37.7330], 9, 90, 50],
                       'sci_virginia':[[-78.6569, 37.4316], 9, 300, 50],
-                      'shedd':[[-87.6140, 41.8676], 10, 270, 100]}
+                      'shedd':[[-87.6140, 41.8676], 10, 270, 100],
+                      'world':[[-92.00, 36.82], 2.6, 0, 0]}
     
     console.log("He clicked fly To " +String(venueName))
     console.log(venue_locs[String(venueName)])
