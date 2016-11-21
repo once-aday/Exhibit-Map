@@ -26,6 +26,27 @@
         .head {
             width: 200px;
         }
+        .mapboxgl-popup {
+            max-width: 400px;
+            font: 12px/20px 'Oswald', Arial, Helvetica, sans-serif;
+            margin: 2px;
+/*
+            padding: 2px 5px 2px 20px;
+            border-radius: 3px;
+            background: rgba(58, 96, 123, 0.74);
+*/
+            color: #90d4ff;
+            font-size: small;
+
+        }
+        .mapboxgl-popup-content{
+            background: rgba(58, 96, 123, 0.74);
+/*            padding: 2px 10px 2px 10px;*/
+            border-radius: 3px;
+        }
+        .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+            border-top-color: rgba(58, 96, 123, 0.74);
+        }
         .marker {
             display: block;
             border: none;
@@ -357,7 +378,7 @@ function createMarkers(features) {
 
 
     $("div").removeClass("marker mapboxgl-marker");
-    
+    $("div").removeClass("mapboxgl-popup")
     
 
     for (i = 0; i < features.length; i++) {
@@ -413,7 +434,7 @@ function flyToVenue(venueName) {
                       'reiman_gardens':[[-93.6386,42.0106], 9, 300, 50],
                       'sf_zoo':[[-122.5029, 37.7330], 9, 90, 50],
                       'sci_virginia':[[-78.6569, 37.4316], 9, 300, 50],
-                      'shedd':[[-87.6140, 41.8676], 10, 270, 100],
+                      'shedd':[[-87.6140, 41.8676], 13, 270, 100],
                       'world':[[-92.00, 36.82], 2.6, 0, 0]}
     
     console.log("He clicked fly To " +String(venueName))
