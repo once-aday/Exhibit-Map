@@ -20,11 +20,49 @@
 <aside id='sculpt-names' class='names-list'>
      <ul></ul>
 </aside>
+    <div id='info-viewer' class='info-box'>
+        <li id=info-img><a href="#venue"><img id='info-window-active' class='info-photo' src='http://washedashore.org/wp2/wp-content/uploads/sculptures_01.jpg' alt='National Zoo'></a></li>
+</div>
     
 <body>
     <style>
+        aside { 
+            float: right;
+        }
         .head {
             width: 200px;
+        }
+        .info-box {
+            position: absolute;
+            padding-top: 0;
+            float: right;
+            z-index: 30;
+            background-color: none;
+            border: 0px outset rgba(37, 86, 128, 0.96);
+            margin-top: 40%;
+            margin-right: 1%;
+            margin-left: 70%;
+            padding-left: 305px;
+            padding-bottom: 260px;
+            border-radius: 3px;
+/*            background: rgba(58, 96, 123, 0.74);*/
+            color: #48aae8;
+            font-size: small;
+            z-index: 35;
+            list-style-type: none;
+        }
+        #info-img {
+            margin: 0 auto;
+            position: absolute;
+            border: 0px outset rgba(37, 86, 128, 0.96);
+            left:20%;
+            top:13%;
+            
+        }
+        .info-photo {
+            width: 230px;
+            height 120px;
+            border-radius: 15%;
         }
         .mapboxgl-popup {
             max-width: 400px;
@@ -64,8 +102,8 @@
             margin-left: 75%;
             margin-top: 4%;
 */
-            top: 20%;
-            right: 5%;
+            top: 0%;
+            right: 1%;
 
             z-index: 3;
             position: absolute;
@@ -298,6 +336,37 @@ $(document).ready(function() {
         curVenueDiv.innerHTML = "";
     });
 });
+
+// Code for hovering over sculpture list elements to render its photo
+    
+//$(document).ready(function() {
+//    $('.sculpt-names').mouseover(function(event) {
+//        console.log("Poof !");
+//        console.log(event.target.id);
+////        
+////        var curVenueBtn = document.getElementById(String(event.target.id));
+////        curVenueBtn.style.borderColor = "red";
+//        
+//        var photo_urls = {'American Sea Star':"https://thumbs.dreamstime.com/z/close-up-starfish-sea-star-near-sandy-shore-tropical-beach-32240546.jpg",
+//                      'denver_zoo':"Denver Zoo",
+//                      'georgia_aquarium':"Georgia Aquarium",
+//                      'nat_zoo':"National Zoo",
+//                      'palm_garden':"Palm Garden",
+//                      'reiman_gardens':"Reiman Gardens",
+//                      'sf_zoo':"San Francisco Zoo",
+//                      'sci_virginia':"Science Museum of Virginia",
+//                      'shedd':"Shedd Aquarium"}
+//        
+//        $('#info-window-active').attr('src',String(photo_urls[String(event.target.id)]))
+////        var curVenueDiv = document.getElementById('info-window-active')
+////        curVenueDiv.innerHTML = String(venueNames[String(event.target.id)]);
+//        
+//    })
+////    .mouseout(function(event) {
+////        var curVenueDiv = document.getElementById('cur_venue')
+////        curVenueDiv.innerHTML = "";
+////    });
+//});
     
 $(document).ready(function() {
     $('.venue-buttons').click(function(event) {
@@ -496,8 +565,29 @@ function getSculptNames(features) {
     }
     
 
-    return names
-};
+    
+    
+    $('.names-list li').mouseover(function(event) {
+        console.log("Poof !");
+        console.log(event.target.textContent);
+//        
+//        var curVenueBtn = document.getElementById(String(event.target.id));
+//        curVenueBtn.style.borderColor = "red";
+        
+        var photo_urls = {'American Sea Star':"https://thumbs.dreamstime.com/z/close-up-starfish-sea-star-near-sandy-shore-tropical-beach-32240546.jpg",
+                      'Anemone Chime':"http://yourshot.nationalgeographic.com/u/ss/fQYSUbVfts-T7pS2VP2wnKyN8wxywmXtY0-FwsgxpCEbbpkk6KRxs0xCLRgt3cVrYNBciNq0toKDFiv8HIW0/",
+                      'Anemone Reef':"http://otlibrary.com/wp-content/gallery/sea-anemone/beadlet-sea-anemone-9418.jpg",
+                      'Bleached Coral Reef':"http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2016/01/cayman-islands02.jpg",
+                      'palm_garden':"Palm Garden",
+                      'reiman_gardens':"Reiman Gardens",
+                      'sf_zoo':"San Francisco Zoo",
+                      'sci_virginia':"Science Museum of Virginia",
+                      'shedd':"Shedd Aquarium"}
+        console.log(photo_urls[event.target.textContent])
+        $('#info-window-active').attr('src',photo_urls[event.target.textContent]);
+        
+        return names
+})};
 
 function venueButtonInteraction() {
     
