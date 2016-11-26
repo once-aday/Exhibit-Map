@@ -21,7 +21,7 @@
      <ul></ul>
 </aside>
     <div id='info-viewer' class='info-box'>
-        <li id=info-img><a href="#venue"><img id='info-window-active' class='info-photo' src='http://washedashore.org/wp2/wp-content/uploads/sculptures_01.jpg' alt='National Zoo'></a></li>
+        <li id=info-img><a href="#venue"><img id='info-window-active' class='info-photo' src='http://washedashore.org/wp2/wp-content/uploads/sculptures_01.jpg' alt='Select a sculpture'></a></li>
 </div>
     
 <body>
@@ -56,13 +56,16 @@
             position: absolute;
             border: 0px outset rgba(37, 86, 128, 0.96);
             left:20%;
-            top:13%;
+            top: 4%;
             
         }
         .info-photo {
             width: 230px;
             height 120px;
             border-radius: 15%;
+        }
+        #info-window-active {
+            list-style-type: none;
         }
         .mapboxgl-popup {
             max-width: 400px;
@@ -578,7 +581,7 @@ function getSculptNames(features) {
                       'Anemone Chime':"http://yourshot.nationalgeographic.com/u/ss/fQYSUbVfts-T7pS2VP2wnKyN8wxywmXtY0-FwsgxpCEbbpkk6KRxs0xCLRgt3cVrYNBciNq0toKDFiv8HIW0/",
                       'Anemone Reef':"http://otlibrary.com/wp-content/gallery/sea-anemone/beadlet-sea-anemone-9418.jpg",
                       'Bleached Coral Reef':"http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2016/01/cayman-islands02.jpg",
-                      'palm_garden':"Palm Garden",
+                      'Priscilla the Parrot Fi':"http://washedashore.org/wp2/wp-content/uploads/sculptures_01.jpg",
                       'reiman_gardens':"Reiman Gardens",
                       'sf_zoo':"San Francisco Zoo",
                       'sci_virginia':"Science Museum of Virginia",
