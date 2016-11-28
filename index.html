@@ -6,13 +6,14 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.22.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.22.0/mapbox-gl.css' rel='stylesheet' />
+    <script type="text/javascript" src="photo_urls.js"></script> 
     <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Coiny|Roboto|Oswald" rel="stylesheet">
     <style>
-        body { margin:0; padding:0; }
+        body { margin:0; padding:0; background-color: #012640}
         #map { position:absolute; top:0; bottom:0; width:100%; height:100%; z-index: 0}
     </style>
 </head>
@@ -265,7 +266,7 @@
     
 <div id='map'></div>
 <script>
-    
+
 mapboxgl.accessToken = 'pk.eyJ1Ijoib25jZWFkYXkiLCJhIjoiY2lqdThkb25mMGQ5bXU3bThhMjlzZWV2cSJ9.9VILu65Um-aP_J04RRO32w';
 var map = new mapboxgl.Map({
     container: 'map', // container id
@@ -549,6 +550,8 @@ function flyToVenue(venueName) {
     
 function getSculptNames(features) {
     
+    names_obj = {}
+    
     $(".names-list li").remove();
     var names = []
     
@@ -561,34 +564,45 @@ function getSculptNames(features) {
     
     for (i = 0; i < names.length; i++) {
         
+        names_obj[names[i]] = 'url'
+        
         var node = document.createElement("LI");                 // Create a <li> node
         var textnode = document.createTextNode(names[i].slice(0,23));         // Create a text node
         node.appendChild(textnode);                              // Append the text to <li>
         document.getElementById("sculpt-names").appendChild(node);     // Append <li> to 
     }
     
+    console.log(names_obj)
+
+
 
     
     
     $('.names-list li').mouseover(function(event) {
         console.log("Poof !");
         console.log(event.target.textContent);
-//        
-//        var curVenueBtn = document.getElementById(String(event.target.id));
-//        curVenueBtn.style.borderColor = "red";
-        
-        var photo_urls = {'American Sea Star':"https://thumbs.dreamstime.com/z/close-up-starfish-sea-star-near-sandy-shore-tropical-beach-32240546.jpg",
-                      'Anemone Chime':"http://yourshot.nationalgeographic.com/u/ss/fQYSUbVfts-T7pS2VP2wnKyN8wxywmXtY0-FwsgxpCEbbpkk6KRxs0xCLRgt3cVrYNBciNq0toKDFiv8HIW0/",
-                      'Anemone Reef':"http://otlibrary.com/wp-content/gallery/sea-anemone/beadlet-sea-anemone-9418.jpg",
-                      'Bleached Coral Reef':"http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2016/01/cayman-islands02.jpg",
-                      'Priscilla the Parrot Fi':"http://washedashore.org/wp2/wp-content/uploads/sculptures_01.jpg",
-                      'reiman_gardens':"Reiman Gardens",
-                      'sf_zoo':"San Francisco Zoo",
-                      'sci_virginia':"Science Museum of Virginia",
-                      'shedd':"Shedd Aquarium"}
+
+//        var photo_urls = {'American Sea Star':"https://thumbs.dreamstime.com/z/close-up-starfish-sea-star-near-sandy-shore-tropical-beach-32240546.jpg",
+//                      'Anemone Chime': 'http://i.imgur.com/xoWCxwd.jpg',
+//                      'Anemone Reef': 'http://i.imgur.com/lrPLDbR.jpg',
+//                      'Bleached Coral Reef':"http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2016/01/cayman-islands02.jpg",
+//                      'Priscilla the Parrot Fi':"http://washedashore.org/wp2/wp-content/uploads/sculptures_01.jpg",
+//                      'reiman_gardens':"Reiman Gardens",
+//                      'sf_zoo':"San Francisco Zoo",
+//                      'sci_virginia':"Science Museum of Virginia",
+//                      'shedd':"Shedd Aquarium"}
         console.log(photo_urls[event.target.textContent])
         $('#info-window-active').attr('src',photo_urls[event.target.textContent]);
-        
+        $('#info-window-active').click(function() {
+            $('#info-photo').css({
+                position: 'fixed',
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+                zIndex: 999
+            });
+        });
         return names
 })};
 
