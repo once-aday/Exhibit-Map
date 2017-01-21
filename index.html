@@ -61,8 +61,8 @@
             
         }
         .info-photo {
-            width: 230px;
-            height 120px;
+            width: 210px;
+            height: 200px;
             border-radius: 15%;
         }
         #info-window-active {
@@ -89,7 +89,7 @@
         .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
             border-top-color: rgba(58, 96, 123, 0.74);
         }
-        .marker {
+        #marker {
             display: block;
             border: none;
 /*            border-radius: 50%;*/
@@ -97,6 +97,7 @@
             padding: 0;
             height: 10%;
             width: 10%;
+            background-image: url('https://cdn2.iconfinder.com/data/icons/sculpture/154/modern-art-monument-sculpture-512.png');
             background-repeat: no-repeat;
             background-size: contain;
         }
@@ -134,7 +135,7 @@
             position:relative;
             z-index: 100;
             margin-right: 50px;
-            margin-bottom: 200px;
+            margin-bottom: 0px;
             padding-left: 100px;
             padding-top: 20px;
             padding-bottom: 0px;
@@ -272,7 +273,8 @@ var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/onceaday/civ64l1he001d2ipb684hzrd8', //hosted style id
     center: [-92.00, 36.82], // starting position
-    zoom: 2.6 // starting zoom 2.6
+    zoom: 2.6, // starting zoom 2.6
+    scrollZoom: false
 });
     
     
@@ -341,36 +343,7 @@ $(document).ready(function() {
     });
 });
 
-// Code for hovering over sculpture list elements to render its photo
-    
-//$(document).ready(function() {
-//    $('.sculpt-names').mouseover(function(event) {
-//        console.log("Poof !");
-//        console.log(event.target.id);
-////        
-////        var curVenueBtn = document.getElementById(String(event.target.id));
-////        curVenueBtn.style.borderColor = "red";
-//        
-//        var photo_urls = {'American Sea Star':"https://thumbs.dreamstime.com/z/close-up-starfish-sea-star-near-sandy-shore-tropical-beach-32240546.jpg",
-//                      'denver_zoo':"Denver Zoo",
-//                      'georgia_aquarium':"Georgia Aquarium",
-//                      'nat_zoo':"National Zoo",
-//                      'palm_garden':"Palm Garden",
-//                      'reiman_gardens':"Reiman Gardens",
-//                      'sf_zoo':"San Francisco Zoo",
-//                      'sci_virginia':"Science Museum of Virginia",
-//                      'shedd':"Shedd Aquarium"}
-//        
-//        $('#info-window-active').attr('src',String(photo_urls[String(event.target.id)]))
-////        var curVenueDiv = document.getElementById('info-window-active')
-////        curVenueDiv.innerHTML = String(venueNames[String(event.target.id)]);
-//        
-//    })
-////    .mouseout(function(event) {
-////        var curVenueDiv = document.getElementById('cur_venue')
-////        curVenueDiv.innerHTML = "";
-////    });
-//});
+
     
 $(document).ready(function() {
     $('.venue-buttons').click(function(event) {
@@ -422,16 +395,6 @@ function loadVenueLogo(id) {
         var names = getSculptNames(features)
         createMarkers(features)
     }).delay(3000).fadeOut(1600);
-    
-    
-//    $(venueLogoDiv).toggle(1600, function() {
-//        //animation complete
-//        console.log("Sliding up..")
-//    });
-//    $(venueLogoDiv).fadeOut(1600, function() {
-//        //animation complete
-//        console.log("Sliding up..")
-//    });
 }    
     
 function createMarkers(features) {
@@ -459,30 +422,32 @@ function createMarkers(features) {
         el.id = 'marker'
         el.className = 'marker';
 //        console.log("url('" + features[i].properties["img_url"] + "')")
-        el.style.backgroundImage = "url('" + features[i].properties["img_url"] + "')";
+//        el.style.backgroundImage = "url(https://cdn2.iconfinder.com/data/icons/sculpture/154/modern-art-monument-sculpture-512.png)";
+//        el.style.backgroundImage = "url('" + features[i].properties["img_url"] + "')";
 //        console.log(el.style.backgroundImage)
 //        el.style.width = '50px'
 //        el.style.height = '50px'
         
         el.addEventListener('click', function() {
-            window.alert(marker.properties.message);
+            window.alert(features[i].properties["scpt_name"]);
         });
         
         var popup = new mapboxgl.Popup({offset:[0, -30]})
-        .setLngLat(features[i].geometry.coordinates)
-        .setText(features[i].properties["scpt_name"])
-        .addTo(map);
+//        .setLngLat(features[i].geometry.coordinates)
+//        .setText(features[i].properties["scpt_name"])
+        //.addTo(map);
 
         console.log(popup)
 //        var popup = new mapboxgl.Popup({offset:popupOffsets})
 //          .setHTML("<h1>Hello World!</h1>");
 //          .addTo(map);
         
-        console.log(el);
+        console.log(el)
         var sculpt_marker = new mapboxgl.Marker(el)
-            .setLngLat(features[i].geometry.coordinates)
-//            .setPopup(popup)
-            .addTo(map);
+        //.setPopup()
+        .setLngLat(features[i].geometry.coordinates)
+        
+        .addTo(map);
 //        el.addEventListener('click', function() {
 //            mb_marker.togglePopup();
 //        });
@@ -522,7 +487,7 @@ function flyToVenue(venueName) {
 
     // and now we're at the opposite point
     isAtStart = !isAtStart;
-
+//or flyTo or easeTo
     map.flyTo({
         
         // These options control the ending camera position: centered at
@@ -535,7 +500,7 @@ function flyToVenue(venueName) {
         // These options control the flight curve, making it move
         // slowly and zoom out almost completely before starting
         // to pan.
-        speed: 0.8, // make the flying slow
+        speed: 1.5, // make the flying slow was.8
         curve: 1, // change the speed at which it zooms out
 
         // This can be any easing function: it takes a number between
@@ -581,16 +546,6 @@ function getSculptNames(features) {
     $('.names-list li').mouseover(function(event) {
         console.log("Poof !");
         console.log(event.target.textContent);
-
-//        var photo_urls = {'American Sea Star':"https://thumbs.dreamstime.com/z/close-up-starfish-sea-star-near-sandy-shore-tropical-beach-32240546.jpg",
-//                      'Anemone Chime': 'http://i.imgur.com/xoWCxwd.jpg',
-//                      'Anemone Reef': 'http://i.imgur.com/lrPLDbR.jpg',
-//                      'Bleached Coral Reef':"http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2016/01/cayman-islands02.jpg",
-//                      'Priscilla the Parrot Fi':"http://washedashore.org/wp2/wp-content/uploads/sculptures_01.jpg",
-//                      'reiman_gardens':"Reiman Gardens",
-//                      'sf_zoo':"San Francisco Zoo",
-//                      'sci_virginia':"Science Museum of Virginia",
-//                      'shedd':"Shedd Aquarium"}
         console.log(photo_urls[event.target.textContent])
         $('#info-window-active').attr('src',photo_urls[event.target.textContent]);
         $('#info-window-active').click(function() {
@@ -608,8 +563,6 @@ function getSculptNames(features) {
 
 function venueButtonInteraction() {
     
-    
-
     var ul = document.getElementById("venue-button-list");
         var items = ul.getElementsByTagName("li");
         for (var i = 0; i < items.length; ++i) {
